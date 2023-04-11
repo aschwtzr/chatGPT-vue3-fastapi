@@ -7,8 +7,7 @@ from fire import Fire
 
 class DatabaseHelper:
     def create_new_conversation(self, conversation: Conversation):
-        converjson = conversation.to_json()
-        pp.pprint(f"{converjson =}")
+        converjson = conversation.json_sans_chat_messages()
         id = self.conversations.insert(converjson)
         self.conversations.update({'id': str(id)}, doc_ids=[id])
         return str(id)
@@ -34,8 +33,6 @@ class DatabaseHelper:
 
     def update_conversation_title(self, conversation_id: str, title: str):
         Convo = Query()
-        conversation = self.conversations.search(Convo.id == conversation_id)
-        pp.pprint(f"{conversation = }")
         # self.conversations.update({'title': title}, doc_ids=[conversation_id])
         self.conversations.update(set('title', title), Convo.id == conversation_id)
 

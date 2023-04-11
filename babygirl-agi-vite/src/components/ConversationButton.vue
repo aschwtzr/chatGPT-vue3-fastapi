@@ -11,7 +11,7 @@ const props = defineProps(['conversationId', 'title'])
 const newConversationTitle = ref('')
 const isEditingTitle = ref(false)
 
-function setCurrentConversation(id) {
+function setConversation(id) {
     store.setCurrentConversation(id)
     getConversationMessages(id).then((res) => {
         console.log(res)
@@ -22,11 +22,14 @@ function setCurrentConversation(id) {
 function createNamedConversation() {
     createNewNamedConversation(newConversationTitle.value).then((res) => {
         console.log(res)
-        store.conversations[res.conversationId] = {
-            title: newConversationTitle.value,
-            chat_messages: []
-        }
-        store.setCurrentConversation(res.conversationId)
+        const updated = [...store.conversations]
+        updated.push(res)
+        store.conversations = [...updated]
+        // store.conversations[res.conversationId] = {
+        //     title: newConversationTitle.value,
+        //     chat_messages: []
+        // }
+        store.setCurrentConversation(res.id)
         newConversationTitle.value = ''
         isEditingTitle.value = false
     })
@@ -81,7 +84,7 @@ function deleteConversation(id) {
             </svg>
         </div>
     </div>
-    <div @click="setCurrentConversation(conversationId)" v-else-if="!isEditingTitle && conversationId !== 'new'"
+    <div @click="setConversation(conversationId)" v-else-if="!isEditingTitle && conversationId !== 'new'"
         :class="`flex w-full justify-items-end items-center p-2 rounded-lg text-gray-900 ${store.currConversationId == conversationId ? 'text-white bg-blue-700 rounded dark:bg-blue-600' : 'dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}`">
         <svg aria-hidden="true" v-if="store.currConversationId !== conversationId"
             class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"

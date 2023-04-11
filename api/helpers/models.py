@@ -13,8 +13,7 @@ class Conversation(BaseModel):
     chat_messages: Union[List[ChatMessage], None] = []
     chat_message_ids: Union[List[str], None] = []
 
-    def to_json(self):
-        messages = [message.dict() for message in self.chat_messages]
+    def json_sans_chat_messages(self):
         conversation_dict = self.dict()
-        conversation_dict['chat_messages'] = messages
+        conversation_dict.pop('chat_messages')
         return conversation_dict
