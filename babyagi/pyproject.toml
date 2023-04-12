@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "babygirl-babyagi"
+version = "0.1.0"
+description = ""
+authors = ["Albert Schweitzer <albert@phosphorus.com>"]
+readme = "README.md"
+packages = [{include = "babygirl_babyagi"}]
+
+[tool.poetry.dependencies]
+python = "3.9.10"
+langchain = "^0.0.137"
+pydantic = "^1.10.7"
+fire = "^0.5.0"
+tinydb = "^4.7.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
