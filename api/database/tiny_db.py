@@ -3,9 +3,14 @@ from tinydb.operations import set
 from helpers.models import ChatMessage, Conversation
 from helpers.utils import pp
 from uuid import UUID
-from fire import Fire
+from fire import Fire 
 
 class DatabaseHelper:
+    def __init__(self, db_path: str = "./db.json"):
+        self.db = TinyDB(db_path)
+
+
+class ChatDB(DatabaseHelper):
     def create_new_conversation(self, conversation: Conversation):
         converjson = conversation.json_sans_chat_messages()
         id = self.conversations.insert(converjson)
@@ -51,12 +56,13 @@ class DatabaseHelper:
         return messages
 
     def __init__(self, db_path: str = "./db.json"):
-        self.db = TinyDB(db_path)
+        super().__init__(db_path)
         self.conversations = self.db.table('conversations')
         self.messages = self.db.table('messages')
 
+
 if __name__ == '__main__':
-    db = DatabaseHelper('./db.json')
+    db = ChatDB('./db.json')
     all = db.conversations.all()
     pp.pprint(all)
     Fire(db)
