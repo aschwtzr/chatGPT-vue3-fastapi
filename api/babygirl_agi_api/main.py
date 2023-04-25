@@ -46,4 +46,8 @@ def update_conversation(conversation_id: str, conversation: Conversation):
 @app.post("/message")
 def create_new_chat(chat_message: ChatMessage):
     chat_message_dict = chat_helper.add_message_to_conversation(chat_message.conversation_id, chat_message)
+    chat_message_dict = chat_helper.add_message_to_conversation(chat_message.conversation_id,
+                                                                 chat_message)
     return chat_message_dict
+
+@app.post("/pipelines/extract_entities")

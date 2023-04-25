@@ -1,9 +1,9 @@
-from helpers.database import DatabaseHelper
+from database.tiny_db import ChatDB
 from helpers.models import ChatMessage, Conversation
 from helpers.utils import pp
 from helpers.openapi import send_openai_chat_message
 
-chat_db = DatabaseHelper('../db.json')
+chat_db = ChatDB('../db.json')
 class ChatHelper():
     def create_new_conversation(self, conversation: Conversation) -> dict:
         conversation.id = chat_db.create_new_conversation(conversation)
